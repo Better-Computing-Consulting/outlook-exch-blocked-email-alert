@@ -44,7 +44,7 @@ Module Module1
                     For Each r As Outlook.Recipient In i.Recipients
                         If r.AddressEntry.Type = "EX" Then
                             Dim tempReceiver As String = GetExchangeSMTPAddress(r.AddressEntry)
-                            If tempReceiver.ToLower.Contains("@wrslawyers.com") Then
+                            If tempReceiver.ToLower.Contains("@lawfirm.com") Then
                                 sReceivers.Add(tempReceiver)
                             End If
                         End If
@@ -87,7 +87,7 @@ Module Module1
     Sub SendEmail(inFrom As String, inTo As List(Of String), inSubject As String, inBody As String, inAttachments As List(Of String), olMsg As Outlook.MailItem)
         Dim sMsg As Outlook.MailItem
         sMsg = olMsg
-        Dim tmpSubj As String = "This message from " & inFrom & " was blocked because it contained zip file(s) " & String.Join(", ", inAttachments.ToArray) & ". " & inFrom & " received a bounce message stating WRSSR does not accept ZIP files by E-mail."
+        Dim tmpSubj As String = "This message from " & inFrom & " was blocked because it contained zip file(s) " & String.Join(", ", inAttachments.ToArray) & ". " & inFrom & " received a bounce message stating that the law firm does not accept ZIP files by E-mail."
         tmpSubj &= vbCrLf & vbCrLf & "If you are sure the email is valid, the zip file is safe and expected, and cannot wait for the other party to resend it, please contact IT."
         tmpSubj &= vbCrLf & vbCrLf & "====================================================================================" & vbCrLf & vbCrLf
         With sMsg
@@ -95,7 +95,7 @@ Module Module1
                 .Recipients.Add(s)
             Next
             Dim olRec As Outlook.Recipient
-            olRec = .Recipients.Add("it@wrslawyers.com")
+            olRec = .Recipients.Add("it@lawfirm.com")
             olRec.Type = Outlook.OlMailRecipientType.olCC
             For Each r As Outlook.Recipient In .Recipients
                 r.Resolve()
@@ -106,7 +106,7 @@ Module Module1
         End With
         Try
             sMsg.Send()
-            Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & ": Inforational email to blocked recipients sent.")
+            Console.WriteLine(Now.ToString("yyyy-MM-dd HH:mm:ss") & ": Informational email to blocked recipients sent.")
         Catch ex As Exception
             Console.WriteLine(ex.Message)
         End Try
@@ -136,7 +136,7 @@ Module Module1
                         Console.WriteLine(">>>> " & r.AddressEntry.AddressEntryUserType)
                         Dim tempReceiver As String = GetExchangeSMTPAddress(r.AddressEntry)
                         Console.WriteLine(">>>>>" & tempReceiver)
-                        If tempReceiver.ToLower.Contains("@wrslawyers.com") Then
+                        If tempReceiver.ToLower.Contains("@lawfirm.com") Then
                             sReceivers.Add(tempReceiver)
                         End If
                     End If
